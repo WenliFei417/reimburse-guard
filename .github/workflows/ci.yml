@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root123
+          MYSQL_DATABASE: reimburse_guard
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Create tables
+        run: |
+          mysql -u root -proot123 -h 127.0.0.1 reimburse_guard -e "
+          CREATE TABLE IF NOT EXISTS records (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            record_id VARCHAR(50),
+            patient_id VARCHAR(50),
+            provider_name VARCHAR(100),
+            service_date VARCHAR(20),
+            claim_type VARCHAR(50),
+            billed_amount VARCHAR(20),
+            reimbursed_amount VARCHAR(20),
+            status VARCHAR(20),
+            imported_at DATETIME
+          );
+          CREATE TABLE IF NOT EXISTS exceptions (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            record_db_id INT,
+            rule_name VARCHAR(50),
+            message TEXT,
+            review_status VARCHAR(20) DEFAULT 'new',
+            note TEXT,
+            created_at DATETIME
+          );"
+
+      - name: Run tests
+        env:
+          DATABASE_URL: mysql://root:root123@127.0.0.1:3306/reimburse_guard?serverVersion=8.0&charset=utf8mb4
+        run: php bin/phpunit tests/Validator/
