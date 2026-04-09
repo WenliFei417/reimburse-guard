@@ -1,0 +1,6 @@
+record_id,patient_id,provider_name,service_date,claim_type,billed_amount,reimbursed_amount,status
+R001,P001,General Hospital,2024-03-01,inpatient,1000.00,800.00,pending
+R002,P002,City Clinic,2024-03-02,outpatient,500.00,600.00,pending
+R003,P003,Health Center,,outpatient,0.00,100.00,pending
+R004,P001,General Hospital,2024-03-01,inpatient,1000.00,800.00,pending
+R005,P005,Downtown Medical,2026-12-01,inpatient,-200.00,100.00,pending
