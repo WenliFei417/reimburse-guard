@@ -6,6 +6,14 @@ Built as a portfolio project demonstrating PHP/Symfony development, MySQL, TDD, 
 
 ---
 
+## Screenshots
+
+![Dashboard](docs/screenshot1.jpg)
+![Dashboard Exception List](docs/screenshot2.jpg)
+![Import CSV](docs/screenshot3.jpg)
+
+---
+
 ## Tech Stack
 
 - **PHP 8.5 / Symfony 7.2**
