@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ReimburseGuard</title>
+    <style>
+        body { font-family: sans-serif; margin: 2rem; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+        .badge { padding: 2px 8px; border-radius: 4px; font-size: 0.85em; }
+        .missing_field { background: #ffd6d6; }
+        .invalid_date { background: #fff3cd; }
+        .invalid_amount { background: #ffd6d6; }
+        .reimbursement_exceeds { background: #ffe0b2; }
+        .duplicate_record { background: #e0e0e0; }
+    </style>
+</head>
+<body>
+    <h1>ReimburseGuard Dashboard</h1>
+    <p><a href="/import">Import CSV</a></p>
+
+    <h2>Summary</h2>
+    <p>Total Records: <strong>{{ total }}</strong></p>
+    <p>Total Exceptions: <strong>{{ exceptionCount }}</strong></p>
+
+    <h3>Exceptions by Rule</h3>
+    <table>
+        <tr><th>Rule</th><th>Count</th></tr>
+        {% for row in byRule %}
+        <tr>
+            <td>{{ row.rule_name }}</td>
+            <td>{{ row.cnt }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Exception List</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Patient ID</th>
+            <th>Provider</th>
+            <th>Service Date</th>
+            <th>Claim Type</th>
+            <th>Rule</th>
+            <th>Message</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for e in exceptions %}
+        <tr>
+            <td>{{ e.id }}</td>
+            <td>{{ e.patient_id }}</td>
+            <td>{{ e.provider_name }}</td>
+            <td>{{ e.service_date }}</td>
+            <td>{{ e.claim_type }}</td>
+            <td><span class="badge {{ e.rule_name }}">{{ e.rule_name }}</span></td>
+            <td>{{ e.message }}</td>
+            <td>{{ e.review_status }}</td>
+            <td>
+    			<form method="post" action="/review/{{ e.id }}">
+        			<select name="review_status">
+            			<option value="new" {{ e.review_status == 'new' ? 'selected' : '' }}>New</option>
+            			<option value="in_review" {{ e.review_status == 'in_review' ? 'selected' : '' }}>In Review</option>
+            			<option value="resolved" {{ e.review_status == 'resolved' ? 'selected' : '' }}>Resolved</option>
+        			</select>
+        			<input type="text" name="note" value="{{ e.note }}" placeholder="Add note...">
+        			<button type="submit">Save</button>
+    			</form>
+			</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
