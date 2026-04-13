@@ -18,7 +18,13 @@
 </head>
 <body>
     <h1>ReimburseGuard Dashboard</h1>
-    <p><a href="/import">Import CSV</a></p>
+    <p>
+        <a href="/import">Import CSV</a>
+        &nbsp;
+        <form method="post" action="/clear" style="display:inline;">
+            <button type="submit" onclick="return confirm('Clear all data?')">Clear All Data</button>
+        </form>
+    </p>
 
     <h2>Summary</h2>
     <p>Total Records: <strong>{{ total }}</strong></p>

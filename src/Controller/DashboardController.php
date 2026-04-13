@@ -32,4 +32,12 @@ class DashboardController extends AbstractController
             'byRule'         => $byRule,
         ]);
     }
+
+    #[Route('/clear', name: 'clear', methods: ['POST'])]
+    public function clear(Connection $connection): Response
+    {
+        $connection->executeStatement('DELETE FROM exceptions');
+        $connection->executeStatement('DELETE FROM records');
+        return $this->redirectToRoute('dashboard');
+    }
 }
