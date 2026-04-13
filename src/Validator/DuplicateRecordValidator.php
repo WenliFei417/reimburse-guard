@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Validator;
-
+// Validates that there are no duplicate records based on patient_id, service_date, and claim_type
 class DuplicateRecordValidator
 {
     private array $seen = [];
