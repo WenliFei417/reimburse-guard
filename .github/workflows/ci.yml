@@ -32,6 +32,12 @@ jobs:
         with:
           php-version: '8.5'
 
+      - name: Create .env file
+        run: |
+          echo "APP_ENV=test" > .env
+          echo "APP_SECRET=demo_secret_123" >> .env
+          echo "DATABASE_URL=mysql://root:root123@127.0.0.1:3306/reimburse_guard?serverVersion=8.0&charset=utf8mb4" >> .env
+
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
 
