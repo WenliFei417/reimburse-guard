@@ -1,5 +1,9 @@
 name: CI
 
+env:
+  APP_ENV: test
+  APP_SECRET: demo_secret_123
+
 on:
   push:
     branches: [ main ]
