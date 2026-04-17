@@ -36,6 +36,7 @@ jobs:
         run: |
           echo "APP_ENV=test" > .env
           echo "APP_SECRET=demo_secret_123" >> .env
+          echo "DEFAULT_URI=http://127.0.0.1" >> .env
           echo "DATABASE_URL=mysql://root:root123@127.0.0.1:3306/reimburse_guard?serverVersion=8.0&charset=utf8mb4" >> .env
 
       - name: Install dependencies
