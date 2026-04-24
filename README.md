@@ -98,6 +98,31 @@ Visit `http://127.0.0.1:8000`
 
 ---
 
+## Quick Start
+
+Steps to run the project locally after initial setup:
+
+```bash
+# 1. Start MySQL
+brew services start mysql
+
+# 2. Navigate to the project directory
+cd ~/Desktop/reimburse-guard
+
+# 3. Start the development server
+symfony serve
+```
+
+Then open `http://127.0.0.1:8000` in your browser.
+
+To stop MySQL when you're done:
+
+```bash
+brew services stop mysql
+```
+
+---
+
 ## Running Tests
 
 ```bash
